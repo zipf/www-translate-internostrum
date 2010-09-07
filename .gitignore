@@ -1,0 +1,8 @@
+*.tmp
+*.bak
+*.old
+_old_versions/
+_doc/
+_more_tests/
+.DS_Store
+
