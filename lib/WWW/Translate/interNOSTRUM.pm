@@ -7,7 +7,7 @@ use WWW::Mechanize;
 use Encode;
 
 
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 
 
 my %lang_pairs = (
@@ -39,12 +39,12 @@ sub new {
         
         # check value; warn and delete if illegal
         if ($_ eq 'output' && !exists $output{$overrides{output}}) {
-            carp _message($_, $overrides{$_});
-            delete $overrides{$_};
+            carp _message('output', $overrides{output});
+            delete $overrides{output};
         }
         if ($_ eq 'lang_pair' && !exists $lang_pairs{$overrides{lang_pair}}) {
-            carp _message($_, $overrides{$_});
-            delete $overrides{$_};
+            carp _message('lang_pair', $overrides{lang_pair});
+            delete $overrides{lang_pair};
         }
     }
     
@@ -140,7 +140,12 @@ sub from_into {
     
     if (@_) {
         my $pair = shift;
-        $self->{lang_pair} = $pair if exists $lang_pairs{$pair};
+        if (!exists $lang_pairs{$pair}) {
+            carp _message('lang_pair', $pair);
+            $self->{lang_pair} = $defaults{'lang_pair'};
+        } else {
+            $self->{lang_pair} = $pair;
+        }   
     } else {
         return $self->{lang_pair};
     }
@@ -197,12 +202,12 @@ __END__
 
 =head1 NAME
 
-WWW::Translate::interNOSTRUM - Catalan < > Spanish machine translation
+WWW::Translate::interNOSTRUM - Catalan < > Spanish machine translation [ OBSOLETE - Use WWW::Translate::Apertium instead ]
 
 
 =head1 VERSION
 
-Version 0.12 September 7, 2010
+Version 0.13 February 18, 2014
 
 
 =head1 SYNOPSIS
@@ -237,6 +242,11 @@ Version 0.12 September 7, 2010
     my $es_unknown_href = $engine->get_unknown('es');
 
 =head1 DESCRIPTION
+
+[ OBSOLETE MODULE: interNOSTRUM will cease to be available on 31.05.2014, but interNOSTRUM 
+technologies continue and expand in the free/open-source platform Apertium (accessible 
+through WWW::Translate::Apertium). ] 
+
 
 interNOSTRUM is a Catalan < > Spanish machine translation engine developed by
 the Department of Software and Computing Systems of the University of Alicante
@@ -404,15 +414,55 @@ project, who kindly answered my questions during the development of this module.
 
 =head1 AUTHOR
 
-Enrique Nell, E<lt>perl_nell@telefonica.netE<gt>
+Enrique Nell, C<< <blas.gordon at gmail.com> >>
 
 
-=head1 COPYRIGHT AND LICENSE
+=head1 BUGS
 
-Copyright (C) 2006 by Enrique Nell.
+Please report any bugs or feature requests to C<bug-www-translate-internostrum at rt.cpan.org>, or through
+the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=WWW-Translate-interNOSTRUM>.  I will be notified, and then you'll
+automatically be notified of progress on your bug as I make changes.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+
+=head1 SUPPORT
+
+You can find documentation for this module with the perldoc command.
+
+    perldoc WWW::Translate::interNOSTRUM
+
+
+You can also look for information at:
+
+=over 4
+
+=item * RT: CPAN's request tracker
+
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=WWW-Translate-interNOSTRUM>
+
+=item * AnnoCPAN: Annotated CPAN documentation
+
+L<http://annocpan.org/dist/WWW-Translate-interNOSTRUM>
+
+=item * CPAN Ratings
+
+L<http://cpanratings.perl.org/d/WWW-Translate-interNOSTRUM>
+
+=item * Search CPAN
+
+L<http://search.cpan.org/dist/WWW-Translate-interNOSTRUM/>
+
+=back
+
+
+=head1 LICENSE AND COPYRIGHT
+
+Copyright 2006-2014 Enrique Nell.
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of either: the GNU General Public License as published
+by the Free Software Foundation; or the Artistic License.
+
+See http://dev.perl.org/licenses/ for more information.
 
 
 =cut

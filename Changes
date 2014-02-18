@@ -1,5 +1,11 @@
 Revision history for Perl extension WWW::Translate::interNOSTRUM
 
+0.13  February 18, 2014
+
+    * Added notes to inform that interNOSTRUM will cease to be available on 31.05.2014    
+    * Fixed a bug related to the "invalid value for parameter" message.
+    * Updated the copyright info
+
 0.12  September 7, 2010
 
     * Changed the contact e-mail address.
